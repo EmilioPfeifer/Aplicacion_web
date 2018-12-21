@@ -1,0 +1,30 @@
+<v-content>
+      <Opciones/>
+      <Table/>
+      <User :items="users"/>
+    </v-content>
+  </v-app>
+</template>
+
+<script>
+import HelloWorld from './components/HelloWorld'
+import Table from './components/Table-vue'
+import User from './components/User'
+import Opciones from './components/Lista-Opciones.vue'
+import json from './components/items.json'
+
+export default {
+  name: 'App',
+  components: {
+    HelloWorld,
+    Table,
+    User,
+    Opciones
+  },
+  components: {
+    Login
+  },
+
+  <b-list-group-item button></b-list-group-item>
+
+   {{ new Date().getFullYear() }} Para el año
