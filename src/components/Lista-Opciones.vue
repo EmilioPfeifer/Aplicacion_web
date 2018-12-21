@@ -7,7 +7,7 @@
                 <b-list-group-item href="/Ventas">Ventas</b-list-group-item>
                 <b-list-group-item button>button</b-list-group-item>
                 <b-list-group-item button>button too</b-list-group-item>
-            </b-list-group>
+            </b-list-group >
         </v-flex>
     </v-layout>
     </v-container>
