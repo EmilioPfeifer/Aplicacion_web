@@ -8,7 +8,7 @@
     class="elevation-1"
     >
     <template slot="items" slot-scope="props" v-if="!props.item.value">
-        <tr @click="showAlert(props.item)">
+        <tr @click="add(props.item)">
         <td>{{ props.item.nombre }}</td>
         <td class="text-xs-left">{{ props.item.fechaAct }}</td>
         <td class="text-xs-left">{{ props.item.ultMov }}</td>
@@ -32,7 +32,13 @@ export default {
   data() {
     return {
       search: '',
-      fields:['nombre','fechaAct','ultMov','cant'],
+      fields:[
+        { key: 'nombre', label: 'Nombre'},
+        { key: 'fechaAct', label: 'Fecha Actualización'},
+        { key: 'ultMov', label: 'Ultimo Movimiento'},
+        { key: 'cant', label: 'Cantidad'},
+        { key: 'actions', label: ''}
+      ],
       selectedList:[],
       header: [
           {
@@ -145,19 +151,22 @@ export default {
   },
   methods: {
     add(item){
-      this.selectedList.push({
-            value: item.value,
-            nombre: item.nombre,
-            fechaAct: item.fechaAct,
-            ultMov: item.ultMov,
-            cant: item.cant,
-            precio: item.precio,
-            iron: item.iron
-      }),
-      this.body.splice(this.body.indexOf(item,1),1)
+      if (item===this.selectedList[this.selectedList.indexOf(item,0)]) {
+        this.selectedList.indexOf(item,0).cant += 1;
+      } else {
+        this.selectedList.push({
+        value: item.value,
+        nombre: item.nombre,
+        fechaAct: item.fechaAct,
+        cant: 1,
+        precio: item.precio,
+        iron: item.iron
+        }),
+        this.body.splice(this.body.indexOf(item,0),1)
+      }
     },
     showAlert(item){
-      alert(this.body.indexOf(item,1))
+      alert(this.body.indexOf(item,0))
     }
   }
 }

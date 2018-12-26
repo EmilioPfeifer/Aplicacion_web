@@ -1,9 +1,18 @@
 <template>
 
     <b-table
+    show-empty
     :fields="header"
     :items="body"
     hover>
+        <template slot="actions" slot-scope="row">
+          <b-button size="sm" @click.stop="" class="mr-1">
+            Modicar cantidad
+          </b-button>
+          <b-button size="sm" @click.stop="">
+            Quitar
+          </b-button>
+        </template>
     </b-table>
 
     <!--<v-data-table
