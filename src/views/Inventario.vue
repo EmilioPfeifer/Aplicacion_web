@@ -14,7 +14,13 @@ export default {
   data() {
     return {
       search: '',
-      fields:['nombre','fechaAct','ultMov','cant','precio'],
+      fields:[
+        { key: 'nombre', label: 'Nombre'},
+        { key: 'fechaAct', label: 'Fecha Actualización'},
+        { key: 'ultMov', label: 'Ultimo Movimiento'},
+        { key: 'cant', label: 'Cantidad'},
+        { key: 'actInvt', label: '' }
+      ],
       header: [
           {
             text: 'Producto ()',
@@ -36,7 +42,7 @@ export default {
             cant: 0,
             precio: 4.0,
             iron: '1%',
-            _rowVariant: 'danger'
+            _rowVariant: ''
           },
           {
             value: true,
@@ -46,7 +52,7 @@ export default {
             cant: 37,
             precio: 4.3,
             iron: '1%',
-            _rowVariant: 'success'
+            _rowVariant: ''
           },
           {
             value: false,
@@ -56,7 +62,7 @@ export default {
             cant: 23,
             precio: 6.0,
             iron: '7%',
-            _rowVariant: 'success'
+            _rowVariant: ''
           },
           {
             value: false,
@@ -66,7 +72,7 @@ export default {
             cant: 67,
             precio: 4.3,
             iron: '8%',
-            _rowVariant: 'success'
+            _rowVariant: ''
           },
           {
             value: false,
@@ -76,7 +82,7 @@ export default {
             cant: 49,
             precio: 3.9,
             iron: '16%',
-            _rowVariant: 'success'
+            _rowVariant: ''
           },
           {
             value: false,
@@ -86,17 +92,17 @@ export default {
             cant: 94,
             precio: 0.0,
             iron: '0%',
-            _rowVariant: 'success'
+            _rowVariant: ''
           },
           {
             value: false,
             nombre: 'Sierra Circular',
             fechaAct: '16/17/18',
             ultMov: '-',
-            cant: 98,
+            cant: 0,
             precio: 0,
             iron: '2%',
-            _rowVariant: 'success'
+            _rowVariant: ''
           },
           {
             value: false,
@@ -106,7 +112,7 @@ export default {
             cant: 87,
             precio: 6.5,
             iron: '45%',
-            _rowVariant: 'success'
+            _rowVariant: ''
           },
           {
             value: false,
@@ -116,7 +122,7 @@ export default {
             cant: 51,
             precio: 4.9,
             iron: '22%',
-            _rowVariant: 'warning'
+            _rowVariant: ''
           },
           {
             value: false,
@@ -126,7 +132,7 @@ export default {
             cant: 65,
             precio: 7,
             iron: '6%',
-            _rowVariant: 'success'
+            _rowVariant: ''
           }
         ]
       }
@@ -137,6 +143,11 @@ export default {
   computed: {
     filteredList() {
       return this.body.filter(post => {
+        if (post.cant==0) {
+          post._rowVariant='danger';
+        }else {
+          post._rowVariant='success';
+        }
         return post.nombre.toLowerCase().includes(this.search.toLowerCase())
       })
     }

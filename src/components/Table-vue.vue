@@ -4,13 +4,19 @@
     show-empty
     :fields="header"
     :items="body"
-    hover>
+    hover
+    >
         <template slot="actions" slot-scope="row">
           <b-button size="sm" @click.stop="" class="mr-1">
             Modicar cantidad
           </b-button>
           <b-button size="sm" @click.stop="">
             Quitar
+          </b-button>
+        </template>
+        <template slot="actInvt" slot-scope="row">
+          <b-button size="sm" @click.stop="" class="mr-1">
+            Modicar
           </b-button>
         </template>
     </b-table>
