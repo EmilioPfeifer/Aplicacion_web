@@ -15,6 +15,7 @@
     </v-toolbar>
 
     <v-content>
+      <!-- Utilizando Router, esta etiqueta llama al 'view' correspondiente, según la ruta. -->
       <router-view/>
     </v-content>
   </v-app>

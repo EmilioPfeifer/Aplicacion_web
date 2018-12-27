@@ -1,11 +1,13 @@
 <template>
-
+<!-- Companente de table, el objetivo de este componente es mostrar los producto que se le entregen. -->
     <b-table
     show-empty
     :fields="header"
     :items="body"
     hover
     >
+    <!-- Los template adicionales son para agregar botones, para utilizar metodos cuando se requieran;...
+         cuales botones se visualizaran, dependera del listado de encaberados que se entrege en los parametros. -->
         <template slot="actions" slot-scope="row">
           <b-button size="sm" @click.stop="" class="mr-1">
             Modicar cantidad
@@ -35,6 +37,10 @@
       <td class="text-xs-left">{{ props.item.precio }}</td>
     </template>
     </v-data-table>
+
+    Otra opcion para la tabla era la 'Data table' de 'Vuetify', pero no se encontraron metodos
+    para generar cambios de color en las fila, lo que no compatibiliza con el planteamiento de la app.
+
     -->
 </template>
 
@@ -46,6 +52,7 @@ export default {
       }
     },
     props: {
+      //Asigna el tipo de variable a los parametros, para que estos sepan que esperar recibir.
       header: Array,
       body: Array
     }

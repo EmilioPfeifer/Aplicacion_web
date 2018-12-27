@@ -1,5 +1,6 @@
 <template>
 <section>
+  <!-- View con doble tabla, una 'Data table' (Vuetify) y otra 'b-table' (Vue-Bootstrap), componente llamado. -->
   <v-container grid-list-md text-xs-center>
     <v-data-table
     :headers="header"
@@ -7,6 +8,7 @@
     hide-actions
     class="elevation-1"
     >
+    <!-- Esta tabla visualiza los datos, tambien se pueden seleccionar para generar una venta. -->
     <template slot="items" slot-scope="props" v-if="!props.item.value">
         <tr @click="add(props.item)">
         <td>{{ props.item.nombre }}</td>
@@ -33,18 +35,22 @@ export default {
     return {
       search: '',
       fields:[
+        //'keys' para señalar que datos ver en la tabla, selecciona en cada objeto las coincidencia en el nombre de los atributos.
         { key: 'nombre', label: 'Nombre'},
         { key: 'fechaAct', label: 'Fecha Actualización'},
         { key: 'ultMov', label: 'Ultimo Movimiento'},
         { key: 'cant', label: 'Cantidad'},
         { key: 'actions', label: ''}
+        //llama al slot especifico, que contiene los botones que actuaran en esta vista.
       ],
+      //'selectedList' es el array para los objetos que se seleccionen en la primera tabla.
       selectedList:[],
       header: [
+        //Asigna el nombre de las columnas y los datos que iran en estas.
           {
             text: 'Producto ()',
             align: 'left',
-            sortable: false,
+            sortable: true,
             value: 'nombre'
           },
           { text: 'Fecha Actualización', value: 'fechaAct' },
@@ -52,6 +58,7 @@ export default {
           { text: 'Cantidad', value: 'cant' },
           { text: 'Precio', value: 'precio' }
         ],
+        //Datos de prueba para ver el funcionamiento de las tablas.
         body: [
           {
             value: false,
@@ -150,6 +157,7 @@ export default {
       Table
   },
   methods: {
+    //metodo para asignar el objeto seleccionado al array 'selectedList'.
     add(item){
       if (item===this.selectedList[this.selectedList.indexOf(item,0)]) {
         this.selectedList.indexOf(item,0).cant += 1;
@@ -165,6 +173,8 @@ export default {
         this.body.splice(this.body.indexOf(item,0),1)
       }
     },
+    //metodo sin uso, sirve para ver el index del objeto seleccionado.
+    //se uso en un principio para buscar solucion a un percance inicial.
     showAlert(item){
       alert(this.body.indexOf(item,0))
     }

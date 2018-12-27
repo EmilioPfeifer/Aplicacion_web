@@ -12,3 +12,4 @@
     </v-layout>
     </v-container>
 </template>
+<!-- Componente, para navegar entre las distintas vistas de la app, se visualiza en la ventana principal.-->

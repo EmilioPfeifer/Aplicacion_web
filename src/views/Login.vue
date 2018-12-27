@@ -1,4 +1,5 @@
 <template>
+<!-- De momento, esta vista, sirve con login de entrada a la app-->
 <section>
   <v-container grid-list-md text-xs-center>
     <v-layout row wrap>
@@ -17,6 +18,8 @@
             label="Pass"
             required
           ></v-text-field>
+          <!-- Sin funcionalidades o Comprobaciones, solo un comprobante de prueba
+          de momento, el boton solo sirve para ingresar directamente a la ventana principal -->
           <v-btn :disabled="!valid" href="/Main">Ingresar</v-btn>
         </v-form>
       </v-flex>
