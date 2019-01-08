@@ -1,16 +1,26 @@
 <template>
-<section>
+<section id="container">
   <!-- View con doble tabla, una 'Data table' (Vuetify) y otra 'b-table' (Vue-Bootstrap), componente llamado. -->
-  <v-container grid-list-md text-xs-center>
+  <v-container grid-list-md text-xs-center id="venta">
+    <v-card-title>
+      <v-text-field
+        v-model="search"
+        append-icon="search"
+        label="Producto..."
+        single-line
+        hide-details
+      ></v-text-field>
+    </v-card-title>
     <v-data-table
     :headers="header"
     :items="body"
+    :search="search"
     hide-actions
     class="elevation-1"
     >
     <!-- Esta tabla visualiza los datos, tambien se pueden seleccionar para generar una venta. -->
     <template slot="items" slot-scope="props" v-if="!props.item.value">
-        <tr @click="add(props.item)">
+        <tr @click="add(props.item, props.index)">
         <td>{{ props.item.nombre }}</td>
         <td class="text-xs-left">{{ props.item.fechaAct }}</td>
         <td class="text-xs-left">{{ props.item.ultMov }}</td>
@@ -20,15 +30,17 @@
     </template>
     </v-data-table>
   </v-container>
-    <v-container grid-list-md text-xs-center>
+    <v-container grid-list-md text-xs-center id="compra">
         <Table :header="fields" :body="selectedList"/>
     </v-container>
-    <v-btn color="success">Siguente</v-btn>
+    <v-btn id="btn" color="success">Siguente</v-btn>
 </section>
 </template>
 
 <script>
 import Table from '@/components/Table-vue'
+
+import { EventBus } from '@/plugins/event-bus.js';
 
 export default {
   data() {
@@ -37,8 +49,6 @@ export default {
       fields:[
         //'keys' para señalar que datos ver en la tabla, selecciona en cada objeto las coincidencia en el nombre de los atributos.
         { key: 'nombre', label: 'Nombre'},
-        { key: 'fechaAct', label: 'Fecha Actualización'},
-        { key: 'ultMov', label: 'Ultimo Movimiento'},
         { key: 'cant', label: 'Cantidad'},
         { key: 'actions', label: ''}
         //llama al slot especifico, que contiene los botones que actuaran en esta vista.
@@ -153,25 +163,34 @@ export default {
         ]
       }
   },
+  created() {
+    EventBus.$on('removeCompra', item => {
+        this.body.push({
+          value: item.value,
+          nombre: item.nombre,
+          fechaAct: item.fechaAct,
+          ultMov: '-',
+          cant: 1,
+          precio: item.precio,
+          iron: item.iron
+        })
+    });
+  },
   components: {
       Table
   },
   methods: {
     //metodo para asignar el objeto seleccionado al array 'selectedList'.
     add(item){
-      if (item===this.selectedList[this.selectedList.indexOf(item,0)]) {
-        this.selectedList.indexOf(item,0).cant += 1;
-      } else {
-        this.selectedList.push({
+      this.selectedList.push({
         value: item.value,
         nombre: item.nombre,
         fechaAct: item.fechaAct,
         cant: 1,
         precio: item.precio,
         iron: item.iron
-        }),
-        this.body.splice(this.body.indexOf(item,0),1)
-      }
+      }),
+      this.body.splice(this.body.indexOf(item,0),1)
     },
     //metodo sin uso, sirve para ver el index del objeto seleccionado.
     //se uso en un principio para buscar solucion a un percance inicial.
@@ -181,3 +200,19 @@ export default {
   }
 }
 </script>
+<style>
+  #venta {
+    width: 725px;
+    float: left;
+  }
+  #compra {
+    width: 620px;
+    float: right;
+    margin-bottom: 20px;
+  }
+  #btn {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+</style>
