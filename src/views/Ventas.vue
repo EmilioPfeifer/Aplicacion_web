@@ -20,7 +20,7 @@
     >
     <!-- Esta tabla visualiza los datos, tambien se pueden seleccionar para generar una venta. -->
     <template slot="items" slot-scope="props" v-if="!props.item.value">
-        <tr @click="add(props.item, props.index)">
+        <tr @click="showDialog(props.item)">
         <td>{{ props.item.nombre }}</td>
         <td class="text-xs-left">{{ props.item.fechaAct }}</td>
         <td class="text-xs-left">{{ props.item.ultMov }}</td>
@@ -30,31 +30,71 @@
     </template>
     </v-data-table>
   </v-container>
-    <v-container grid-list-md text-xs-center id="compra">
-        <Table :header="fields" :body="selectedList"/>
-    </v-container>
-    <v-btn id="btn" color="success">Siguente</v-btn>
+
+  <v-container grid-list-md text-xs-center id="compra">
+      <Table :header="fields" :body="selectedList"/>
+  </v-container>
+  <v-btn id="btn" color="success" @click="siguiente">Siguente</v-btn>
+
+  <v-dialog v-model="show" max-width="500">
+    <v-card id="formulario">
+      <v-card-title class="headline">{{ itemAdd.producto.nombre}}, disponibles: {{ itemAdd.producto.cant }}</v-card-title>
+      <b-form @submit="onSubmit" @reset="onReset">
+
+        <b-form-group id="InputGroup1" label="Cantidad:" label-for="Input1">
+          <b-form-input id="Input1" type="text" v-model="itemAdd.producto.cantVenta" required placeholder="Cantidad">
+          </b-form-input>
+        </b-form-group>
+        <b-button type="submit" variant="primary">Aceptar</b-button>
+        <b-button type="reset" variant="danger">Cancelar</b-button>
+      </b-form>
+    </v-card>
+  </v-dialog>
+
+  <v-dialog v-model="confirmation" max-width="500">
+    <v-card id="formulario">
+      <v-card-title class="headline">Continuar? valor venta: ${{valorVenta}}</v-card-title>
+
+      <b-form>
+        <b-button variant="primary" @click="confirmar()">Aceptar</b-button>
+        <b-button variant="danger" @click="confirmation= false">Cancelar</b-button>
+      </b-form>
+    </v-card>
+  </v-dialog>
 </section>
 </template>
 
 <script>
 import Table from '@/components/Table-vue'
+import datosJson from '@/Datos/materiales.json'
 
 import { EventBus } from '@/plugins/event-bus.js';
 
 export default {
   data() {
     return {
+      show: false,
+      confirmation: false,
+      itemAdd: {
+        producto: Object
+      },
       search: '',
       fields:[
         //'keys' para señalar que datos ver en la tabla, selecciona en cada objeto las coincidencia en el nombre de los atributos.
         { key: 'nombre', label: 'Nombre'},
-        { key: 'cant', label: 'Cantidad'},
+        { key: 'cantVenta', label: 'Cantidad'},
         { key: 'actions', label: ''}
         //llama al slot especifico, que contiene los botones que actuaran en esta vista.
       ],
       //'selectedList' es el array para los objetos que se seleccionen en la primera tabla.
       selectedList:[],
+      valorVenta: 0,
+
+      venta: {
+        lista: this.selectedList,
+        valorVenta: this.valorVenta
+      },
+
       header: [
         //Asigna el nombre de las columnas y los datos que iran en estas.
           {
@@ -69,98 +109,7 @@ export default {
           { text: 'Precio', value: 'precio' }
         ],
         //Datos de prueba para ver el funcionamiento de las tablas.
-        body: [
-          {
-            value: false,
-            nombre: 'Galletero',
-            fechaAct: '16/17/18',
-            ultMov: '-',
-            cant: 24,
-            precio: 4.0,
-            descuento: '1%'
-          },
-          {
-            value: false,
-            nombre: 'Vigas',
-            fechaAct: '16/17/18',
-            ultMov: '-',
-            cant: 37,
-            precio: 4.3,
-            descuento: '1%'
-          },
-          {
-            value: false,
-            nombre: 'PVC',
-            fechaAct: '16/17/18',
-            ultMov: '-',
-            cant: 23,
-            precio: 6.0,
-            descuento: '7%'
-          },
-          {
-            value: false,
-            nombre: 'Clavos',
-            fechaAct: '16/17/18',
-            ultMov: '-',
-            cant: 67,
-            precio: 4.3,
-            descuento: '8%'
-          },
-          {
-            value: false,
-            nombre: 'Lona',
-            fechaAct: '16/17/18',
-            ultMov: '-',
-            cant: 49,
-            precio: 3.9,
-            descuento: '25%'
-          },
-          {
-            value: false,
-            nombre: 'Martillo',
-            fechaAct: '16/17/18',
-            ultMov: '-',
-            cant: 94,
-            precio: 0.0,
-            descuento: '0%'
-          },
-          {
-            value: false,
-            nombre: 'Sierra Circular',
-            fechaAct: '16/17/18',
-            ultMov: '-',
-            cant: 98,
-            precio: 0,
-            descuento: '20%'
-          },
-          {
-            value: false,
-            nombre: 'Cables',
-            fechaAct: '16/17/18',
-            ultMov: '-',
-            cant: 87,
-            precio: 6.5,
-            descuento: '50%'
-          },
-          {
-            value: false,
-            nombre: 'Paller',
-            fechaAct: '16/17/18',
-            ultMov: '-',
-            cant: 51,
-            precio: 4.9,
-            descuento: '10%'
-          },
-          {
-            value: false,
-            nombre: 'Electrodos',
-            fechaAct: '16/17/18',
-            ultMov: '-',
-            cant: 65,
-            precio: 7,
-            descuento: '25%'
-          }
-        ]
+        body: datosJson
       }
   },
   created() {
@@ -170,10 +119,11 @@ export default {
           nombre: item.nombre,
           fechaAct: item.fechaAct,
           ultMov: '-',
-          cant: 1,
+          cant: item.cant,
           precio: item.precio,
           iron: item.iron
-        })
+        }),
+        this.valorVenta = this.valorVenta-item.precio
     });
   },
   components: {
@@ -186,7 +136,8 @@ export default {
         value: item.value,
         nombre: item.nombre,
         fechaAct: item.fechaAct,
-        cant: 1,
+        cantVenta: item.cantVenta,
+        cant: item.cant,
         precio: item.precio,
         iron: item.iron
       }),
@@ -194,8 +145,39 @@ export default {
     },
     //metodo sin uso, sirve para ver el index del objeto seleccionado.
     //se uso en un principio para buscar solucion a un percance inicial.
-    showAlert(item){
-      alert(this.body.indexOf(item,0))
+    showDialog(item){
+      this.show=true;
+      this.itemAdd.producto = item;
+    },
+    onSubmit (evt) {
+      if (this.itemAdd.producto.cantVenta==0) {
+        evt.preventDefault();
+        this.onReset(evt)
+      } else {
+        evt.preventDefault();
+        this.add(this.itemAdd.producto)
+        this.show = false;
+      }
+    },
+    onReset (evt) {
+      evt.preventDefault();
+      this.show = false;
+    },
+    siguiente(){
+      this.valorVenta = 0;
+      this.confirmation=true;
+      this.valorTotalVenta();
+    },
+    confirmar(){
+      EventBus.$emit('Confirmar', this.selectedList);
+      window.location.href = '/main';
+    },
+    valorTotalVenta () {
+      this.selectedList.forEach(element => {
+        for (let i = 0; i < element.cantVenta; i++) {
+          this.valorVenta += element.precio; 
+        }
+      });
     }
   }
 }
@@ -206,6 +188,7 @@ export default {
     float: left;
   }
   #compra {
+    margin-top: 20px;
     width: 620px;
     float: right;
     margin-bottom: 20px;
@@ -215,4 +198,9 @@ export default {
     bottom: 0;
     right: 0;
   }
+  #formulario {
+        width: 500px;
+        padding: 10px;
+        border: solid #BDBDBD;
+    }
 </style>

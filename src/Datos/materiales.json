@@ -1,0 +1,92 @@
+[
+    {
+      "value": false,
+      "nombre": "Galletero",
+      "fechaAct": "16/17/18",
+      "ultMov": "-",
+      "cant": 24,
+      "precio": 4.0,
+      "descuento": "1%"
+    },
+    {
+      "value": false,
+      "nombre": "Vigas",
+      "fechaAct": "16/17/18",
+      "ultMov": "-",
+      "cant": 37,
+      "precio": 4.3,
+      "descuento": "1%"
+    },
+    {
+      "value": false,
+      "nombre": "PVC",
+      "fechaAct": "16/17/18",
+      "ultMov": "-",
+      "cant": 23,
+      "precio": 6.0,
+      "descuento": "7%"
+    },
+    {
+      "value": false,
+      "nombre": "Clavos",
+      "fechaAct": "16/17/18",
+      "ultMov": "-",
+      "cant": 67,
+      "precio": 4.3,
+      "descuento": "8%"
+    },
+    {
+      "value": false,
+      "nombre": "Lona",
+      "fechaAct": "16/17/18",
+      "ultMov": "-",
+      "cant": 49,
+      "precio": 3.9,
+      "descuento": "25%"
+    },
+    {
+      "value": false,
+      "nombre": "Martillo",
+      "fechaAct": "16/17/18",
+      "ultMov": "-",
+      "cant": 94,
+      "precio": 0.0,
+      "descuento": "0%"
+    },
+    {
+      "value": false,
+      "nombre": "Sierra Circular",
+      "fechaAct": "16/17/18",
+      "ultMov": "-",
+      "cant": 98,
+      "precio": 0,
+      "descuento": "20%"
+    },
+    {
+      "value": false,
+      "nombre": "Cables",
+      "fechaAct": "16/17/18",
+      "ultMov": "-",
+      "cant": 87,
+      "precio": 6.5,
+      "descuento": "50%"
+    },
+    {
+      "value": false,
+      "nombre": "Paller",
+      "fechaAct": "16/17/18",
+      "ultMov": "-",
+      "cant": 51,
+      "precio": 4.9,
+      "descuento": "10%"
+    },
+    {
+      "value": false,
+      "nombre": "Electrodos",
+      "fechaAct": "16/17/18",
+      "ultMov": "-",
+      "cant": 65,
+      "precio": 7,
+      "descuento": "25%"
+    }
+  ]
