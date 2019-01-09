@@ -8,19 +8,19 @@
     >
     <!-- Los template adicionales son para agregar botones, para utilizar metodos cuando se requieran;...
          cuales botones se visualizaran, dependera del listado de encaberados que se entrege en los parametros. -->
-        <template slot="actions" slot-scope="row">
-          <b-button size="sm" @click.stop="" class="mr-1">
-            Modificar cantidad
-          </b-button>
-          <b-button size="sm" @click="remove(row.item, row.index)">
-            Quitar
-          </b-button>
-        </template>
-        <template slot="actInvt" slot-scope="row">
-          <b-button size="sm" @click.stop="" class="mr-1">
-            Modificar
-          </b-button>
-        </template>
+      <template slot="actions" slot-scope="row">
+        <b-button size="sm" @click.stop="" class="mr-1">
+          Modificar cantidad
+        </b-button>
+        <b-button size="sm" @click="remove(row.item, row.index)">
+          Quitar
+        </b-button>
+      </template>
+      <template slot="actInvt" slot-scope="row">
+        <b-button size="sm" @click.stop="submitItem(row.item)" class="mr-1">
+          Modificar
+        </b-button>
+      </template>
     </b-table>
 
     <!--<v-data-table
@@ -62,6 +62,9 @@ export default {
       remove(item, index) {
         EventBus.$emit('removeCompra', item);
         this.body.splice(index,1);
+      },
+      submitItem(item){
+        EventBus.$emit('itemEdit', item);
       }
     }
   }

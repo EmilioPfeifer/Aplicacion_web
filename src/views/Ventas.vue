@@ -38,7 +38,7 @@
 
   <v-dialog v-model="show" max-width="500">
     <v-card id="formulario">
-      <v-card-title class="headline">{{ itemAdd.producto.nombre}}, disponibles: {{ itemAdd.producto.cant }}</v-card-title>
+      <v-card-title class="headline">{{ itemAdd.producto.nombre }}, disponibles: {{ itemAdd.producto.cant }}</v-card-title>
       <b-form @submit="onSubmit" @reset="onReset">
 
         <b-form-group id="InputGroup1" label="Cantidad:" label-for="Input1">
@@ -53,8 +53,10 @@
 
   <v-dialog v-model="confirmation" max-width="500">
     <v-card id="formulario">
-      <v-card-title class="headline">Continuar? valor venta: ${{valorVenta}}</v-card-title>
-
+      <v-card-title class="headline">Continuar?</v-card-title>
+      <v-card-text>
+        <p>valor venta: <strong>${{valorVenta}}</strong></p>
+      </v-card-text>
       <b-form>
         <b-button variant="primary" @click="confirmar()">Aceptar</b-button>
         <b-button variant="danger" @click="confirmation= false">Cancelar</b-button>
@@ -202,5 +204,5 @@ export default {
         width: 500px;
         padding: 10px;
         border: solid #BDBDBD;
-    }
+  }
 </style>
