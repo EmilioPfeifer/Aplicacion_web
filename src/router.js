@@ -4,6 +4,7 @@ import Login from './views/Login'
 import Option from './components/Lista-Opciones'
 import Inventario from './views/Inventario'
 import Ventas from './views/Ventas'
+import Boletas from './views/Boletas'
 
 Vue.use(Router)
 
@@ -30,6 +31,11 @@ export default new Router({
       path: '/Ventas',
       name: 'Tabla Venta',
       component: Ventas
+    },
+    {
+      path: '/Boletas',
+      name: 'Registro de Boletas',
+      component: Boletas
     },
     {
       path: '/about',

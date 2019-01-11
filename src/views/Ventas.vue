@@ -153,7 +153,6 @@ export default {
     },
     onSubmit (evt) {
       if (this.itemAdd.producto.cantVenta==0) {
-        evt.preventDefault();
         this.onReset(evt)
       } else {
         evt.preventDefault();

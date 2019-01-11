@@ -15,6 +15,12 @@
               <b-form-input id="Input1" type="text" v-model="itemEdit.cant" required placeholder="Nueva Cantidad">
               </b-form-input>
             </b-form-group>
+
+            <b-form-group id="InputGroup2" label="Precio:" label-for="Input2">
+              <b-form-input id="Input2" type="text" v-model="itemEdit.precio" required placeholder="Nueva Cantidad">
+              </b-form-input>
+            </b-form-group>
+
             <b-button type="submit" variant="primary">Aceptar</b-button>
             <b-button type="reset" variant="danger">Cancelar</b-button>
 
@@ -43,6 +49,7 @@ export default {
         { key: 'fechaAct', label: 'Fecha Actualización'},
         { key: 'ultMov', label: 'Ultimo Movimiento'},
         { key: 'cant', label: 'Cantidad'},
+        { key: 'precio', label: 'Precio'},
         { key: 'actInvt', label: '' }
         //Se llama al slot especifico, el cual posee el boton que actuara en esta vista.
       ],//Cuerpo de datos para pruebas de los componentes.
@@ -74,15 +81,18 @@ export default {
       this.show = true;
       this.itemEdit = item;
       this.itemEdit.cantOld = item.cant;
+      this.itemEdit.precioOld = item.precio;
     },
 
     onSubmit (evt) {
       evt.preventDefault();
+      this.itemEdit.fechaAct = new Date().toISOString().substr(0, 10);
       this.show = false;
     },
     onReset (evt) {
       evt.preventDefault();
       this.itemEdit.cant = this.itemEdit.cantOld;
+      this.itemEdit.precio = this.itemEdit.precioOld;
       this.show = false;
     }
 

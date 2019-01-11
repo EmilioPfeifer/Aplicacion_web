@@ -1,4 +1,5 @@
 <template>
+<div>
 <!-- Companente de table, el objetivo de este componente es mostrar los producto que se le entregen. -->
     <b-table
     show-empty
@@ -9,7 +10,7 @@
     <!-- Los template adicionales son para agregar botones, para utilizar metodos cuando se requieran;...
          cuales botones se visualizaran, dependera del listado de encaberados que se entrege en los parametros. -->
       <template slot="actions" slot-scope="row">
-        <b-button size="sm" @click.stop="" class="mr-1">
+        <b-button size="sm" @click.stop="editCantidad(row.item, row.index)" class="mr-1">
           Modificar cantidad
         </b-button>
         <b-button size="sm" @click="remove(row.item, row.index)">
@@ -42,30 +43,65 @@
     para generar cambios de color en las fila, lo que no compatibiliza con el planteamiento de la app.
 
     -->
+
+    <template>
+    <v-dialog v-model="show" max-width="500">
+        <v-card id="formulario">
+        <v-card-title class="headline">{{ producto.nombre}}, disponibles: {{ producto.cantVenta }}</v-card-title>
+        <b-form @submit="onSubmit" @reset="onReset">
+
+            <b-form-group id="InputGroup1" label="Cantidad:" label-for="Input1">
+            <b-form-input id="Input1" type="text" v-model="producto.cantVenta" required placeholder="Cantidad">
+            </b-form-input>
+            </b-form-group>
+            <b-button type="submit" variant="primary">Aceptar</b-button>
+            <b-button type="reset" variant="danger">Cancelar</b-button>
+        </b-form>
+        </v-card>
+    </v-dialog>
+  </template>
+</div>
 </template>
 
 <script>
 import { EventBus } from '@/plugins/event-bus.js';
 
 export default {
-    data () {
-      return {
-        //
-      }
+  data () {
+    return {
+      show: false,
+      producto: Object,
+      indx: Number
+    }
+  },
+  props: {
+    //Asigna el tipo de variable a los parametros, para que estos sepan que esperar recibir.
+    header: Array,
+    body: Array
+  },
+  methods: {
+    editCantidad(item, index) {
+      this.producto = item;
+      this.indx = index;
+      this.show = true;
     },
-    props: {
-      //Asigna el tipo de variable a los parametros, para que estos sepan que esperar recibir.
-      header: Array,
-      body: Array
+    remove(item, index) {
+      EventBus.$emit('removeCompra', item);
+      this.body.splice(index,1);
     },
-    methods: {
-      remove(item, index) {
-        EventBus.$emit('removeCompra', item);
-        this.body.splice(index,1);
-      },
-      submitItem(item){
-        EventBus.$emit('itemEdit', item);
+    submitItem(item){
+      EventBus.$emit('itemEdit', item);
+    },
+    onSubmit (evt) {
+      if(this.producto.cantVenta==0){
+        this.remove(this.producto, this.indx);
       }
+      this.onReset(evt);
+    },
+    onReset (evt) {
+      evt.preventDefault();
+      this.show = false;
     }
   }
+}
 </script>
