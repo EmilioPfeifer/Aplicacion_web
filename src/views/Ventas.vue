@@ -23,7 +23,6 @@
         <tr @click="showDialog(props.item)">
         <td>{{ props.item.nombre }}</td>
         <td class="text-xs-left">{{ props.item.fechaAct }}</td>
-        <td class="text-xs-left">{{ props.item.ultMov }}</td>
         <td class="text-xs-left">{{ props.item.cant }}</td>
         <td class="text-xs-left">{{ props.item.precio }}</td>
         </tr>
@@ -111,7 +110,6 @@ export default {
             value: 'nombre'
           },
           { text: 'Fecha Actualización', value: 'fechaAct' },
-          { text: 'Ultimo Movimiento', value: 'ultMov' },
           { text: 'Cantidad', value: 'cant' },
           { text: 'Precio', value: 'precio' }
         ]
