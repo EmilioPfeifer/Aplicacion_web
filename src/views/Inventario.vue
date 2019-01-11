@@ -36,11 +36,15 @@
 import Table from '@/components/Table-vue'
 import datosJson from '@/Datos/materiales.json'
 
+import DBService from '@/services/DBService'
+
 import { EventBus } from '@/plugins/event-bus.js';
 
 export default {
   data() {
     return {
+      DBService: new DBService(),
+
       search: '',
       fields:[
         //Llama a las variable, de objeto, que coincida con la 'key', para ordenar en columnas;
@@ -66,7 +70,7 @@ export default {
     //'filteredList' es un array, con el cual se visualiza la tabla, la datos que esten en este array dependeran...
     //del contenido de la barra 'input', esta filtrara el contenido, según el nombre, y asiganra un color segun la cantidad de este en el inventario.
     filteredList() {
-      return this.body.filter(post => {
+      return this.inventario.filter(post => {
         if (post.cant==0) {
           post._rowVariant='danger';
         }else {
@@ -74,6 +78,9 @@ export default {
         }
         return post.nombre.toLowerCase().includes(this.search.toLowerCase())
       })
+    },
+    inventario() {
+      return this.DBService.getProductos();
     }
   },methods: {
 
@@ -94,6 +101,10 @@ export default {
       this.itemEdit.cant = this.itemEdit.cantOld;
       this.itemEdit.precio = this.itemEdit.precioOld;
       this.show = false;
+    },
+    add(item){
+      let vm = this;
+      vm.DBService.agregarProducto(JSON.parse(JSON.stringify(item)));
     }
 
   },
@@ -101,6 +112,13 @@ export default {
     EventBus.$on('itemEdit', item => {
       this.setItem(item);
     });
+  },
+  mounted() {
+    if(this.inventario.length==0){
+      this.body.forEach(element => {
+        this.add(element);
+      });
+    }
   }
 }
 </script>
