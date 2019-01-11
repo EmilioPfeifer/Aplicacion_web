@@ -22,12 +22,36 @@
 </template>
 
 <script>
+import { EventBus } from '@/plugins/event-bus.js';
+import userJson from '@/Datos/User.json';
 
 export default {
   name: 'App',
   data () {
     return {
-      
+      listUser: userJson,
+      user: {
+        ID: String,
+        pass: String
+      }
+    }
+  },
+  created() {
+    EventBus.$on('Login', user => {
+      this.user.ID = user.ID;
+      this.user.pass = user.pass;
+      this.acceder();
+    });
+  },
+  methods: {
+    acceder(){
+      this.listUser.forEach(elt => {
+        if(elt.ID===this.user.ID){
+          if(elt.pas===this.user.pass){
+            window.location.href = '/main';
+          }
+        }
+      });
     }
   }
 }
