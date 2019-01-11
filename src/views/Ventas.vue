@@ -13,7 +13,7 @@
     </v-card-title>
     <v-data-table
     :headers="header"
-    :items="body"
+    :items="inventario"
     :search="search"
     hide-actions
     class="elevation-1"
@@ -55,6 +55,7 @@
     <v-card id="formulario">
       <v-card-title class="headline">Continuar?</v-card-title>
       <v-card-text>
+        <p v-for="item in selectedList">{{item.cantVenta}} X {{item.nombre}} ${{item.cantVenta*item.precio}}</p>
         <p>valor venta: <strong>${{valorVenta}}</strong></p>
       </v-card-text>
       <b-form>
@@ -68,13 +69,16 @@
 
 <script>
 import Table from '@/components/Table-vue'
-import datosJson from '@/Datos/materiales.json'
+
+import DBService from '@/services/DBService'
 
 import { EventBus } from '@/plugins/event-bus.js';
 
 export default {
   data() {
     return {
+      DBService: new DBService(),
+
       show: false,
       confirmation: false,
       itemAdd: {
@@ -91,10 +95,11 @@ export default {
       //'selectedList' es el array para los objetos que se seleccionen en la primera tabla.
       selectedList:[],
       valorVenta: 0,
-
+      //Contiene los datos de la venta a realizar.
       venta: {
-        lista: this.selectedList,
-        valorVenta: this.valorVenta
+        fecha: new Date().toISOString().substr(0, 10),
+        lista: Array,
+        valorVenta: Number
       },
 
       header: [
@@ -109,14 +114,12 @@ export default {
           { text: 'Ultimo Movimiento', value: 'ultMov' },
           { text: 'Cantidad', value: 'cant' },
           { text: 'Precio', value: 'precio' }
-        ],
-        //Datos de prueba para ver el funcionamiento de las tablas.
-        body: datosJson
+        ]
       }
   },
   created() {
     EventBus.$on('removeCompra', item => {
-        this.body.push({
+        this.inventario.push({
           value: item.value,
           nombre: item.nombre,
           fechaAct: item.fechaAct,
@@ -143,7 +146,7 @@ export default {
         precio: item.precio,
         iron: item.iron
       }),
-      this.body.splice(this.body.indexOf(item,0),1)
+      this.inventario.splice(this.inventario.indexOf(item,0),1)
     },
     //metodo sin uso, sirve para ver el index del objeto seleccionado.
     //se uso en un principio para buscar solucion a un percance inicial.
@@ -170,7 +173,10 @@ export default {
       this.valorTotalVenta();
     },
     confirmar(){
-      EventBus.$emit('Confirmar', this.selectedList);
+      this.venta.lista = this.selectedList;
+      this.venta.valorVenta = this.valorVenta;
+      let vm = this;
+      vm.DBService.agregarVenta(this.venta);
       window.location.href = '/main';
     },
     valorTotalVenta () {
@@ -179,6 +185,11 @@ export default {
           this.valorVenta += element.precio; 
         }
       });
+    }
+  },
+  computed: {
+    inventario() {
+      return this.DBService.getProductos();
     }
   }
 }
@@ -200,8 +211,8 @@ export default {
     right: 0;
   }
   #formulario {
-        width: 500px;
-        padding: 10px;
-        border: solid #BDBDBD;
+    width: 500px;
+    padding: 10px;
+    border: solid #BDBDBD;
   }
 </style>

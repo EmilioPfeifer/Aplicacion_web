@@ -15,6 +15,10 @@ class DBService {
     this.productos.push(producto);
     localStorage.setItem('Productos', JSON.stringify(this.productos));
   }
+  removeProducto (index){
+    this.productos.splice(index,1);
+    localStorage.setItem('Productos', JSON.stringify(this.productos));
+  }
 
   getVentas () {
     return this.ventas;

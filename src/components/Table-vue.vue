@@ -18,7 +18,7 @@
         </b-button>
       </template>
       <template slot="actInvt" slot-scope="row">
-        <b-button size="sm" @click.stop="submitItem(row.item)" class="mr-1">
+        <b-button size="sm" @click.stop="submitItem(row.item, row.index)" class="mr-1">
           Modificar
         </b-button>
       </template>
@@ -89,8 +89,9 @@ export default {
       EventBus.$emit('removeCompra', item);
       this.body.splice(index,1);
     },
-    submitItem(item){
+    submitItem(item, index){
       EventBus.$emit('itemEdit', item);
+      EventBus.$emit('indexEdit', index);
     },
     onSubmit (evt) {
       if(this.producto.cantVenta==0){

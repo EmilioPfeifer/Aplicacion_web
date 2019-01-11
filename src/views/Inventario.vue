@@ -60,6 +60,7 @@ export default {
         body: datosJson,
 
         show: false,
+        indexEdit: Number,
         itemEdit: Object
       }
   },
@@ -82,10 +83,12 @@ export default {
     inventario() {
       return this.DBService.getProductos();
     }
-  },methods: {
+  },
+  methods: {
 
-    setItem(item){
+    setItem(item, index){
       this.show = true;
+      this.indexEdit = index;
       this.itemEdit = item;
       this.itemEdit.cantOld = item.cant;
       this.itemEdit.precioOld = item.precio;
@@ -94,6 +97,8 @@ export default {
     onSubmit (evt) {
       evt.preventDefault();
       this.itemEdit.fechaAct = new Date().toISOString().substr(0, 10);
+      this.removeOld(this.indexEdit);
+      this.pushModificado(this.itemEdit);
       this.show = false;
     },
     onReset (evt) {
@@ -105,12 +110,24 @@ export default {
     add(item){
       let vm = this;
       vm.DBService.agregarProducto(JSON.parse(JSON.stringify(item)));
+    },
+    removeOld(index){
+      let vm = this;
+      vm.DBService.removeProducto(index);
+      
+    },
+    pushModificado(item){
+      let vm = this;
+      vm.DBService.agregarProducto(item);
     }
 
   },
   created() {
     EventBus.$on('itemEdit', item => {
       this.setItem(item);
+    });
+    EventBus.$on('indexEdit', index => {
+      this.indexEdit = index;
     });
   },
   mounted() {
