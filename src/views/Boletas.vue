@@ -31,7 +31,6 @@
 
     <v-data-iterator
       :items="filteredList"
-      :pagination.sync="pagination"
       content-tag="v-layout"
       hide-actions
       row
