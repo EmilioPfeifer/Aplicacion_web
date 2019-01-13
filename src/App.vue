@@ -47,9 +47,9 @@ export default {
     acceder(){
       this.listUser.forEach(elt => {
         if(elt.ID===this.user.ID){
-          if(elt.pas===this.user.pass){
+          //if(elt.pas===this.user.pass){
             window.location.href = '/main';
-          }
+          //}
         }
       });
     }

@@ -5,6 +5,7 @@ import Option from './components/Lista-Opciones'
 import Inventario from './views/Inventario'
 import Ventas from './views/Ventas'
 import Boletas from './views/Boletas'
+import DBS from './services/DBService.js'
 
 Vue.use(Router)
 

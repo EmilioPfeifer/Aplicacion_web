@@ -16,13 +16,13 @@
         <v-text-field
           slot="activator"
           v-model="date"
-          label="Picker in menu"
+          label="Fecha"
           prepend-icon="event"
           readonly
         ></v-text-field>
         <v-date-picker v-model="date" no-title scrollable>
           <v-spacer></v-spacer>
-          <v-btn flat color="primary" @click="menu = false">Cancel</v-btn>
+          <v-btn flat color="primary" @click="cancel()">Limpiar</v-btn>
           <v-btn flat color="primary" @click="$refs.menu.save(date)">OK</v-btn>
         </v-date-picker>
       </v-menu>
@@ -62,7 +62,7 @@ export default {
     data(){
         return{
             DBService: new DBService(),
-            date: new Date().toISOString().substr(0, 10),
+            date: '',
             menu: false/*,
             
             /*rowsPerPageItems: [4, 8, 12],
@@ -80,6 +80,13 @@ export default {
                 return dat.fecha.toLowerCase().includes(this.date.toLowerCase())
             })
         }
+    },
+    methods: {
+      cancel() {
+        this.date = "";
+        $refs.menu.save(date);
+        this.menu = false;
+      }
     }
 }
 </script>

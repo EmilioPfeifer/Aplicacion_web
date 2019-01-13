@@ -12,12 +12,12 @@
         <b-form @submit="onSubmit" @reset="onReset">
 
             <b-form-group id="InputGroup1" label="Cantidad:" label-for="Input1">
-              <b-form-input id="Input1" type="text" v-model="itemEdit.cant" required placeholder="Nueva Cantidad">
+              <b-form-input id="Input1" type="number" v-model="itemEdit.cant" required placeholder="Nueva Cantidad">
               </b-form-input>
             </b-form-group>
 
             <b-form-group id="InputGroup2" label="Precio:" label-for="Input2">
-              <b-form-input id="Input2" type="text" v-model="itemEdit.precio" required placeholder="Nueva Cantidad">
+              <b-form-input id="Input2" type="number" v-model="itemEdit.precio" required placeholder="Nueva Cantidad">
               </b-form-input>
             </b-form-group>
 
@@ -97,8 +97,7 @@ export default {
     onSubmit (evt) {
       evt.preventDefault();
       this.itemEdit.fechaAct = new Date().toISOString().substr(0, 10);
-      this.removeOld(this.indexEdit);
-      this.pushModificado(this.itemEdit);
+      this.editItem(this.inventario);
       this.show = false;
     },
     onReset (evt) {
@@ -111,14 +110,11 @@ export default {
       let vm = this;
       vm.DBService.agregarProducto(JSON.parse(JSON.stringify(item)));
     },
-    removeOld(index){
+    editItem(array){
       let vm = this;
-      vm.DBService.removeProducto(index);
-      
-    },
-    pushModificado(item){
-      let vm = this;
-      vm.DBService.agregarProducto(item);
+      this.itemEdit.cant = parseFloat(this.itemEdit.cant);
+      this.itemEdit.precio = parseFloat(this.itemEdit.precio);
+      vm.DBService.modificarProducto(array);
     }
 
   },
