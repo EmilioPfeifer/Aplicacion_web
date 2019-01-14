@@ -6,6 +6,8 @@
     <b-form-input type="text" v-model="search" placeholder="Search..."/>
     <Table :header="fields" :body="filteredList"/>
 
+    <v-btn id="btn" color="success" @click="showNew=true">Nuevo</v-btn>
+
     <v-dialog v-model="show" max-width="500">
       <v-card id="formulario">
         <v-card-title class="headline">{{ itemEdit.nombre }}, disponibles: {{itemEdit.cant}}</v-card-title>
@@ -28,12 +30,16 @@
       </v-card>
     </v-dialog>
 
+    <v-dialog v-model="showNew" max-width="500">
+      <form-new-producto id="formulario"/>
+    </v-dialog>
   </v-container>
 </section>
 </template>
 
 <script>
 import Table from '@/components/Table-vue'
+import FormNewProducto from '@/components/FormularioProducto'
 import datosJson from '@/Datos/materiales.json'
 
 import DBService from '@/services/DBService'
@@ -60,12 +66,14 @@ export default {
         body: datosJson,
 
         show: false,
+        showNew: false,
         indexEdit: Number,
         itemEdit: Object
       }
   },
   components: {
-      Table
+      Table,
+      FormNewProducto
   },
   computed: {
     //'filteredList' es un array, con el cual se visualiza la tabla, la datos que esten en este array dependeran...
@@ -125,6 +133,18 @@ export default {
     EventBus.$on('indexEdit', index => {
       this.indexEdit = index;
     });
+    EventBus.$on('newItem', item => {
+      this.add(item);
+      this.showNew = false;
+    });
+    EventBus.$on('closeDialog', () => {
+      this.showNew = false;
+    });
+    EventBus.$on('deleteItem', index => {
+      let vm = this;
+      vm.inventario.splice(index,1);
+      vm.DBService.modificarProducto(vm.inventario);
+    });
   },
   mounted() {
     if(this.inventario.length==0){
@@ -141,5 +161,10 @@ export default {
         width: 500px;
         padding: 10px;
         border: solid #BDBDBD;
+  }
+  #btn {
+    position: absolute;
+    bottom: 0;
+    right: 0;
   }
 </style>

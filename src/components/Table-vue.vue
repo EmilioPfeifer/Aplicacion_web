@@ -21,6 +21,9 @@
         <b-button size="sm" @click.stop="submitItem(row.item, row.index)" class="mr-1">
           Modificar
         </b-button>
+        <b-button size="sm" @click="eliminar(row.index)">
+          X
+        </b-button>
       </template>
     </b-table>
 
@@ -88,6 +91,9 @@ export default {
     remove(item, index) {
       EventBus.$emit('removeCompra', item);
       this.body.splice(index,1);
+    },
+    eliminar(index) {
+      EventBus.$emit('deleteItem', index);
     },
     submitItem(item, index){
       EventBus.$emit('itemEdit', item);
