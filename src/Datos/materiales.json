@@ -1,6 +1,5 @@
 [
     {
-      "value": false,
       "nombre": "Galletero",
       "fechaAct": "16/17/18",
       "ultMov": "-",
@@ -9,7 +8,6 @@
       "descuento": "1%"
     },
     {
-      "value": false,
       "nombre": "Vigas",
       "fechaAct": "16/17/18",
       "ultMov": "-",
@@ -18,7 +16,6 @@
       "descuento": "1%"
     },
     {
-      "value": false,
       "nombre": "PVC",
       "fechaAct": "16/17/18",
       "ultMov": "-",
@@ -27,7 +24,6 @@
       "descuento": "7%"
     },
     {
-      "value": false,
       "nombre": "Clavos",
       "fechaAct": "16/17/18",
       "ultMov": "-",
@@ -36,7 +32,6 @@
       "descuento": "8%"
     },
     {
-      "value": false,
       "nombre": "Lona",
       "fechaAct": "16/17/18",
       "ultMov": "-",
@@ -45,7 +40,6 @@
       "descuento": "25%"
     },
     {
-      "value": false,
       "nombre": "Martillo",
       "fechaAct": "16/17/18",
       "ultMov": "-",
@@ -54,7 +48,6 @@
       "descuento": "0%"
     },
     {
-      "value": false,
       "nombre": "Sierra Circular",
       "fechaAct": "16/17/18",
       "ultMov": "-",
@@ -63,7 +56,6 @@
       "descuento": "20%"
     },
     {
-      "value": false,
       "nombre": "Cables",
       "fechaAct": "16/17/18",
       "ultMov": "-",
@@ -72,7 +64,6 @@
       "descuento": "50%"
     },
     {
-      "value": false,
       "nombre": "Paller",
       "fechaAct": "16/17/18",
       "ultMov": "-",
@@ -81,7 +72,6 @@
       "descuento": "10%"
     },
     {
-      "value": false,
       "nombre": "Electrodos",
       "fechaAct": "16/17/18",
       "ultMov": "-",

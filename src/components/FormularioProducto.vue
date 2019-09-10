@@ -7,7 +7,7 @@
             </b-form-input>
         </b-form-group>
         <b-form-group id="InputGroup2" label="Cantidad:" label-for="Input2">
-            <b-form-input id="Input2" type="number" v-model="item.cantidad" required placeholder="Cantidad...">
+            <b-form-input id="Input2" type="number" v-model="item.cant" required placeholder="Cantidad...">
             </b-form-input>
         </b-form-group>
         <b-form-group id="InputGroup3" label="Precio:" label-for="Input3">
@@ -31,8 +31,8 @@ export default {
             DBService: new DBService(),
             item: {
                 nombre: '',
-                cant: 0,
-                precio: 0,
+                cant: '',
+                precio: '',
                 fechaAct: new Date().toISOString().substr(0, 10),
                 ultMov: '-',
             }
@@ -44,10 +44,16 @@ export default {
             this.item.cant = parseFloat(this.item.cant);
             this.item.precio = parseFloat(this.item.precio);
             EventBus.$emit('newItem', this.item);
+            this.clearItem();
         },
         onReset (evt) {
             evt.preventDefault();
             EventBus.$emit('closeDialog');
+        },
+        clearItem() {
+            this.item.nombre = '';
+            this.item.precio = null;
+            this.item.cant = null;
         }
     }
 }
